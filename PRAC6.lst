@@ -1,0 +1,246 @@
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+         1 ANALISIS MATEMATICO                                                  
+         2 ASTROFISICA                                                          
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         4 MATEMATICAS FUNDAMENTAL                                              
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (d TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8));
+ADD (d TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8))
+     *
+ERROR at line 2:
+ORA-01430: column being added already exists in table 
+
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (D TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8));
+ADD (D TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8))
+     *
+ERROR at line 2:
+ORA-01430: column being added already exists in table 
+
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (D TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8));
+ADD (D TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8))
+     *
+ERROR at line 2:
+ORA-01430: column being added already exists in table 
+
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+         1 ANALISIS MATEMATICO                                                  
+         2 ASTROFISICA                                                          
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         4 MATEMATICAS FUNDAMENTAL                                              
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (D TIMESTAMP(8) DEFAULT SYSTIMESTAMP+(8));
+ADD (D TIMESTAMP(8) DEFAULT SYSTIMESTAMP+(8))
+     *
+ERROR at line 2:
+ORA-01430: column being added already exists in table 
+
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (DI TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8));
+
+Table altered.
+
+SQL> SELECT *
+  2  ALTER TABLE DEPARTAMENTO
+  3  ;
+ALTER TABLE DEPARTAMENTO
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+DI                                                                              
+---------------------------------------------------------------------------     
+         1 ANALISIS MATEMATICO                                                  
+15-NOV-17 01.36.30.98446000 PM                                                  
+                                                                                
+         2 ASTROFISICA                                                          
+15-NOV-17 01.36.30.98446000 PM                                                  
+                                                                                
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+15-NOV-17 01.36.30.98446000 PM                                                  
+                                                                                
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+DI                                                                              
+---------------------------------------------------------------------------     
+         4 MATEMATICAS FUNDAMENTAL                                              
+15-NOV-17 01.36.30.98446000 PM                                                  
+                                                                                
+
+SQL> ALTER TABLE DEPARTAMENTO DROP COLUMN DI;
+
+Table altered.
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+         1 ANALISIS MATEMATICO                                                  
+         2 ASTROFISICA                                                          
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         4 MATEMATICAS FUNDAMENTAL                                              
+
+SQL> SET LINESIZE 80
+SQL> SET PAGESIZE 100
+SQL> ALTER TABLE DEPARTAMENTO
+  2  ADD (DI TIMESTAMP(8) DEFAULT SYSTIMESTAMP(8));
+
+Table altered.
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+DI                                                                              
+---------------------------------------------------------------------------     
+         1 ANALISIS MATEMATICO                                                  
+15-NOV-17 01.38.06.31035000 PM                                                  
+                                                                                
+         2 ASTROFISICA                                                          
+15-NOV-17 01.38.06.31035000 PM                                                  
+                                                                                
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+15-NOV-17 01.38.06.31035000 PM                                                  
+                                                                                
+         4 MATEMATICAS FUNDAMENTAL                                              
+15-NOV-17 01.38.06.31035000 PM                                                  
+                                                                                
+
+SQL> DROP TABLE DEPARTAMENTO;
+DROP TABLE DEPARTAMENTO
+           *
+ERROR at line 1:
+ORA-02449: unique/primary keys in table referenced by foreign keys 
+
+
+SQL> SELECT *
+  2  DROP TABLE DEPARTAMENTO;
+DROP TABLE DEPARTAMENTO
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+DI                                                                              
+---------------------------------------------------------------------------     
+         1 ANALISIS MATEMATICO                                                  
+15-NOV-17 01.38.06.31035000 PM                                                  
+                                                                                
+         2 ASTROFISICA                                                          
+15-NOV-17 01.38.06.31035000 PM                                                  
+                                                                                
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+15-NOV-17 01.38.06.31035000 PM                                                  
+                                                                                
+         4 MATEMATICAS FUNDAMENTAL                                              
+15-NOV-17 01.38.06.31035000 PM                                                  
+                                                                                
+
+SQL> ALTER TABLE DEPARTAMENTO DROP COLUMN DI;
+
+Table altered.
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+         1 ANALISIS MATEMATICO                                                  
+         2 ASTROFISICA                                                          
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         4 MATEMATICAS FUNDAMENTAL                                              
+
+SQL> DESCRIBE DEPARTAMENTO;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CD                                        NOT NULL NUMBER(2)
+ D                                                  VARCHAR2(60)
+
+SQL> ALTER TABLE DEPARTAMENTO
+  2  MODIFY (D VARCHAR2(50));
+
+Table altered.
+
+SQL> DESCRIBE DEPARTAMENTO;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CD                                        NOT NULL NUMBER(2)
+ D                                                  VARCHAR2(50)
+
+SQL> 
+SQL> SELECT DNI
+  2  FROM ASIGNATURA NATURAL PLAN_DOCENTE
+  3  WHERE ASIGNATURAASIGNATURAGIIT=
+  4  MINUS
+  5  SELECT DNI
+  6  FROM ASIGNATURA NATURAL PLAN_DOCENTE
+  7  WHERE ASIGNATURA;ASIGNATURAMIIT=
+  8  
+SQL> 
+SQL> SELECT DNI
+  2  FROM ASIGNATURA NATURAL PLAN_DOCENTE
+  3  WHERE ASIGNATURAASIGNATURAGIIT=
+  4  MINUS
+  5  SELECT DNI
+  6  FROM ASIGNATURA NATURAL PLAN_DOCENTE
+  7  WHERE ASIGNATURA;ASIGNATURAMIIT=
+  8  
+SQL> SELECT DNI
+  2  FROM ASIGNATURA NATURALJOIN PLAN_DOCENTE
+  3  WHERE T='GII'
+  4  MINUS
+  5  SELECT DNI
+  6  FROM ASIGNATURA NATURALJOIN PLAN_DOCENTE
+  7  WHERE T!='GII'
+  8  ;
+FROM ASIGNATURA NATURALJOIN PLAN_DOCENTE
+                            *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> 2 FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+SQL> 6 FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+SQL> /
+
+       DNI                                                                      
+----------                                                                      
+      1010                                                                      
+      1111                                                                      
+      3030                                                                      
+      3333                                                                      
+      5555                                                                      
+      9999                                                                      
+
+6 rows selected.
+
+SQL> EXIT
