@@ -1,0 +1,621 @@
+SQL> FLOOR (sysdate-Fi) to_char(Sysdate,'hh:mi:ss'
+SP2-0734: unknown command beginning "FLOOR (sys..." - rest of line ignored.
+SQL> FLOOR (Sysdate-Fi) to_char(Sysdate,'HH:MI:SS'
+SP2-0734: unknown command beginning "FLOOR (Sys..." - rest of line ignored.
+SQL> Floor (Sysdate-Fi) to_char(Sysdate,'HH:MI:SS'
+SP2-0734: unknown command beginning "Floor (Sys..." - rest of line ignored.
+SQL> SELECT SYSDATE FECHA FROM DUAL;
+
+FECHA                                                                           
+---------                                                                       
+22-NOV-17                                                                       
+
+SQL> SELECT TO_CHAR(SYSDATE,'HH:MI:SS') HORA FROM DUAL;
+
+HORA                                                                            
+--------                                                                        
+07:01:57                                                                        
+
+SQL> SELECT TO_CHAR(SYSDATE,'DAY DD/MM/YY') FEHCA
+  2  FROM DUAL;
+
+FEHCA                                                                           
+---------------------------------------------                                   
+WEDNESDAY 22/11/17                                                              
+
+SQL> SELECT TO_CHAR(SYSDATE, 'HH24:MI:SS') FECHA FROM DUAL;
+
+FECHA                                                                           
+--------                                                                        
+07:03:30                                                                        
+
+SQL> SELECT FLOOR(SYSDATE-FI) FECHA
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=8888 AND FF IS  NULL;
+
+     FECHA                                                                      
+----------                                                                      
+      3004                                                                      
+
+SQL> SELECT DISTINCT P
+  2  FROM PROFESOR
+  3  NATURAL JOIN PLAN_DOCENTE
+  4  WHERE((FF-FI)>365)OR (FF IS NULL) AND((SYSDATE-FI>365)));
+WHERE((FF-FI)>365)OR (FF IS NULL) AND((SYSDATE-FI>365)))
+                                                       *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> 4 WHERE ((FF-FI)>365)OR ((FF IS NULL) AND ((SYSDATE-FI>365)));
+SQL> /
+
+P                                                                               
+------------------------------------------------------------                    
+MARIO                                                                           
+JUAN                                                                            
+PEDRO                                                                           
+FRANCISCO                                                                       
+SOLEDAD                                                                         
+DAVID                                                                           
+CARLOS                                                                          
+IVAN                                                                            
+CARMEN                                                                          
+MARIA                                                                           
+JOSE MANUEL                                                                     
+
+P                                                                               
+------------------------------------------------------------                    
+ANGELA                                                                          
+
+12 rows selected.
+
+SQL> SET PAGESIZE 100
+SQL> /
+
+P                                                                               
+------------------------------------------------------------                    
+MARIO                                                                           
+JUAN                                                                            
+PEDRO                                                                           
+FRANCISCO                                                                       
+SOLEDAD                                                                         
+DAVID                                                                           
+CARLOS                                                                          
+IVAN                                                                            
+CARMEN                                                                          
+MARIA                                                                           
+JOSE MANUEL                                                                     
+ANGELA                                                                          
+
+12 rows selected.
+
+SQL> SELECT COUNT(P)
+  2  FROM PROFESOR
+  3  WHERE CAR IN(SELECT CAR
+  4  FROM AREA WHERE CD =(SELECT CD
+  5  FROM DEPARTAMENTO WHERE D='ASTROFISICA'));
+
+  COUNT(P)                                                                      
+----------                                                                      
+         1                                                                      
+
+SQL> SELECT COUNT(P), D
+  2  FROM AREA NATURAL JOIN PROFESOR NATURAL JOIN DEPARTAMENTO
+  3  GROUP BY D
+  4  ORDER BY D ASC;
+
+  COUNT(P) D                                                                    
+---------- --------------------------------------------------                   
+         3 ANALISIS MATEMATICO                                                  
+         1 ASTROFISICA                                                          
+         7 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         1 MATEMATICAS FUNDAMENTAL                                              
+
+SQL> SELECT DISTINCT T
+  2  FROM ASIGNATURA NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  3  WHERE CD=3;
+
+T                                                                               
+----                                                                            
+GII                                                                             
+MII                                                                             
+
+SQL> SELECT COUNT(DNI)
+  2  FROM PROFESOR INNER JOIN AREA ON
+  3  PRFESOR.CAR=AREA.CAR
+  4  WHERE AR LIKE 'A%';
+PRFESOR.CAR=AREA.CAR
+*
+ERROR at line 3:
+ORA-00904: "PRFESOR"."CAR": invalid identifier 
+
+
+SQL> 3 PROFESOR.CAR=AREA.CAR
+SQL> /
+
+COUNT(DNI)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELCET T, COUNT(A) 'NUMERO ASIGNATURAS'
+SP2-0734: unknown command beginning "SELCET T, ..." - rest of line ignored.
+SQL> SELECT T, COUNT(A) 'NUMERO ASIGNATURAS'
+  2  FROM ASIGNATURA
+  3  GROUP BY T
+  4  ORDER BY T ASC;
+SELECT T, COUNT(A) 'NUMERO ASIGNATURAS'
+                   *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELCET T, COUNT(A) "NUMERO ASIGNATURAS"
+SP2-0734: unknown command beginning "SELCET T, ..." - rest of line ignored.
+SQL> /
+SELECT T, COUNT(A) 'NUMERO ASIGNATURAS'
+                   *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> 1 SELCET T, COUNT(A) "NUMERO ASIGNATURAS"
+SQL> /
+SELCET T, COUNT(A) "NUMERO ASIGNATURAS"
+*
+ERROR at line 1:
+ORA-00900: invalid SQL statement 
+
+
+SQL> 1 SELECT T, COUNT(A) "NUMERO ASIGNATURAS"
+SQL> /
+
+T    NUMERO ASIGNATURAS                                                         
+---- ------------------                                                         
+GF                    1                                                         
+GII                   7                                                         
+GM                    2                                                         
+MII                   2                                                         
+
+SQL> SELECT A "ASIGNATURA CON MENOS CT"
+  2  FROM ASIGNATURA
+  3  SHERE CT IN (SELECT MIN(CT) FROM ASIGNATURA);
+SHERE CT IN (SELECT MIN(CT) FROM ASIGNATURA)
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> 3 WHERE CT IN (SELECT MIN(CT) FROM ASIGNATURA);
+SQL> /
+
+ASIGNATURA CON MENOS CT                                                         
+--------------------------------------------------                              
+INTELIGENCIA ARTIFICIAL                                                         
+ALMACENES DE DATOS                                                              
+MINERIA DE DATOS                                                                
+
+SQL> SELECT A "ASIGNATURA CON MAS CREDITO"
+  2  FROM ASIGNATURA
+  3  WHERE CT IN (SELECT MAX(CT) FROM ASIGNATURA);
+
+ASIGNATURA CON MAS CREDITO                                                      
+--------------------------------------------------                              
+ENSENANZA DE LA MATEMATICA                                                      
+
+SQL> SELECT A, SUM(CT+CP+CL) "TOTAL CREDITOS"
+  2  FROM ASIGNATURA
+  3  GROUP BY A;
+
+A                                                  TOTAL CREDITOS               
+-------------------------------------------------- --------------               
+ALGEBRA                                                         6               
+BASES DE DATOS                                                  6               
+INFORMATICA BASICA                                              6               
+OPTIMIZACION                                                    6               
+CALCULO                                                         6               
+GESTION DE RIESGOS                                              3               
+ENSENANZA DE LA MATEMATICA                                      6               
+ANALISIS COMPLEJO                                             7.5               
+INTELIGENCIA ARTIFICIAL                                         6               
+MINERIA DE DATOS                                                3               
+ALMACENES DE DATOS                                              3               
+ASTRONOMIA                                                      6               
+
+12 rows selected.
+
+SQL> SELECT A, SUM(CT+CP+CL) "TOTAL CREDITOS"
+  2  FROM ASIGNATURA
+  3  GROUP BY A
+  4  HAVING SUM(CT+CP+CL) IN (SELECT MAX(CT+CP+CL) FROM ASIGNATURA);
+
+A                                                  TOTAL CREDITOS               
+-------------------------------------------------- --------------               
+ANALISIS COMPLEJO                                             7.5               
+
+SQL> SELECT A, SUM(CT+CP+CL) "TOTAL CREDITOS"
+  2  FROM ASIGNATURA
+  3  GROUP BY A
+  4  HAVING SUM(CT+CP+CL) IN (SELECT MIN(CT+CP+CL)FROM ASIGNATURA);
+
+A                                                  TOTAL CREDITOS               
+-------------------------------------------------- --------------               
+GESTION DE RIESGOS                                              3               
+MINERIA DE DATOS                                                3               
+ALMACENES DE DATOS                                              3               
+
+SQL> SELECT * FROM ASIGNATURA;
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         1 BASES DE DATOS                                     GII           3   
+         7          3        1.5        1.5                                     
+                                                                                
+         2 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4        1.5        1.5          3                                     
+                                                                                
+         3 ALMACENES DE DATOS                                 MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+         4 MINERIA DE DATOS                                   MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+         5 INFORMATICA BASICA                                 GII           1   
+         7          3        1.5        1.5                                     
+                                                                                
+         6 ALGEBRA                                            GII           1   
+         1          3          3          0                                     
+                                                                                
+         7 CALCULO                                            GII           1   
+         8          3          3          0                                     
+                                                                                
+         8 OPTIMIZACION                                       GII           1   
+         6          3        1.5        1.5                                     
+                                                                                
+         9 GESTION DE RIESGOS                                 GII           3   
+         4          3          0          0                                     
+                                                                                
+        10 ASTRONOMIA                                         GF            2   
+         3          3        1.5        1.5                                     
+                                                                                
+        11 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5          6          0          0                                     
+                                                                                
+        12 ANALISIS COMPLEJO                                  GM            4   
+         2        4.5          3          0                                     
+                                                                                
+
+12 rows selected.
+
+SQL> UPDATE ASIGNATURA SE CL ='3'
+  2  WHERE A= "gESTION DE RIESGOS"
+  3  ;
+UPDATE ASIGNATURA SE CL ='3'
+                     *
+ERROR at line 1:
+ORA-00971: missing SET keyword 
+
+
+SQL> 1 UPDATE ASIGNATURA SET CL ='3'
+SQL> 2 WHERE A= "GESTION DE RIESGOS"
+SQL> /
+WHERE A= "GESTION DE RIESGOS"
+         *
+ERROR at line 2:
+ORA-00904: "GESTION DE RIESGOS": invalid identifier 
+
+
+SQL> 1 UPDATE ASIGNATURA SET CL='3'
+SQL> 2 WHERE A="GESTION DE RIESGOS";
+SQL> /
+WHERE A="GESTION DE RIESGOS"
+        *
+ERROR at line 2:
+ORA-00904: "GESTION DE RIESGOS": invalid identifier 
+
+
+SQL> SELECT * FROM ASIGNATURA;
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         1 BASES DE DATOS                                     GII           3   
+         7          3        1.5        1.5                                     
+                                                                                
+         2 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4        1.5        1.5          3                                     
+                                                                                
+         3 ALMACENES DE DATOS                                 MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+         4 MINERIA DE DATOS                                   MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+         5 INFORMATICA BASICA                                 GII           1   
+         7          3        1.5        1.5                                     
+                                                                                
+         6 ALGEBRA                                            GII           1   
+         1          3          3          0                                     
+                                                                                
+         7 CALCULO                                            GII           1   
+         8          3          3          0                                     
+                                                                                
+         8 OPTIMIZACION                                       GII           1   
+         6          3        1.5        1.5                                     
+                                                                                
+         9 GESTION DE RIESGOS                                 GII           3   
+         4          3          0          0                                     
+                                                                                
+        10 ASTRONOMIA                                         GF            2   
+         3          3        1.5        1.5                                     
+                                                                                
+        11 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5          6          0          0                                     
+                                                                                
+        12 ANALISIS COMPLEJO                                  GM            4   
+         2        4.5          3          0                                     
+                                                                                
+
+12 rows selected.
+
+SQL> UPDATE ASIGNATURA SET CL='3'
+  2  WHERE A='GESTION DE RIESGOS';
+
+1 row updated.
+
+SQL> SELECT * FROM ASIGNATURA;
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         1 BASES DE DATOS                                     GII           3   
+         7          3        1.5        1.5                                     
+                                                                                
+         2 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4        1.5        1.5          3                                     
+                                                                                
+         3 ALMACENES DE DATOS                                 MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+         4 MINERIA DE DATOS                                   MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+         5 INFORMATICA BASICA                                 GII           1   
+         7          3        1.5        1.5                                     
+                                                                                
+         6 ALGEBRA                                            GII           1   
+         1          3          3          0                                     
+                                                                                
+         7 CALCULO                                            GII           1   
+         8          3          3          0                                     
+                                                                                
+         8 OPTIMIZACION                                       GII           1   
+         6          3        1.5        1.5                                     
+                                                                                
+         9 GESTION DE RIESGOS                                 GII           3   
+         4          3          0          3                                     
+                                                                                
+        10 ASTRONOMIA                                         GF            2   
+         3          3        1.5        1.5                                     
+                                                                                
+        11 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5          6          0          0                                     
+                                                                                
+        12 ANALISIS COMPLEJO                                  GM            4   
+         2        4.5          3          0                                     
+                                                                                
+
+12 rows selected.
+
+SQL> SELECT A , SUM(CT+CP+CL) "TOTAL CREDITOS"
+  2  FROM ASIGNATURA
+  3  GROUP BY A
+  4  HAVING SYM(CT+CP+CL) IN (SELECT MIN(CT+CP+CL)FROM ASIGNATURA);
+HAVING SYM(CT+CP+CL) IN (SELECT MIN(CT+CP+CL)FROM ASIGNATURA)
+       *
+ERROR at line 4:
+ORA-00904: "SYM": invalid identifier 
+
+
+SQL> 4 HAVING SUM(CT+CP+CL) IN (SELECT MIN(CT+CP+CL)FROM ASIGNATURA);
+SQL> /
+
+A                                                  TOTAL CREDITOS               
+-------------------------------------------------- --------------               
+MINERIA DE DATOS                                                3               
+ALMACENES DE DATOS                                              3               
+
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY AR
+  4  HAVING SUM (CT+CP+CL) IN(SELECT MAX(CT+CP+CL) FROM ASIGNATURA);
+
+AR                                                                              
+------------------------------------------------------------                    
+ANALISIS MATEMATICO                                                             
+
+SQL> SELECT COUNT(CAS)
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI='1111'
+  4  GROUP BY CAS;
+
+COUNT(CAS)                                                                      
+----------                                                                      
+         2                                                                      
+
+SQL> SELECT SUM(CTA+CPA+CLA) AS "TOTAL CREDITOS"
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI='1111'
+  4  ;
+
+TOTAL CREDITOS                                                                  
+--------------                                                                  
+             9                                                                  
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL
+  4  GROUP BY P
+  5  HAVING(SUM(CLA+CPA+CTA))>=ALL(
+  6  SELECT SUM(CLA+CPA+CTA)
+  7  FROM PLAN DOCENTE
+  8  WHERE FF IS NULL
+  9  GROUP BY DNI);
+FROM PLAN DOCENTE
+     *
+ERROR at line 7:
+ORA-00942: table or view does not exist 
+
+
+SQL> 7 FROM PLAN_DOCENTE
+SQL> /
+
+P                                                                               
+------------------------------------------------------------                    
+PEDRO                                                                           
+MARIA                                                                           
+
+SQL> SELECT AVG(COUNT(A)) MEDIA
+  2  FROM ASIGNATURA
+  3  GROUP BY CAR;
+
+     MEDIA                                                                      
+----------                                                                      
+       1.5                                                                      
+
+SQL> SELECT AVG(COUNT(DNI)) MEDIA
+  2  FROM PROFESOR NATURAL JOIN AREA
+  3  INNER JOIN DEPARTAMENTO
+  4  ON AREA.CD = DEPARTAMENTO.CD
+  5  GROUP BY D;
+
+     MEDIA                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY AR HAVING(COUNT(CAR)>3);
+
+AR                                                                              
+------------------------------------------------------------                    
+LENGUAJES Y SITEMAS INFORMATICOS                                                
+
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN ASIGNATURA
+  3  GROUP BY AR
+  4  HAVING(COUNT(CAR)>6);
+
+no rows selected
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA
+  3  INNER JOIN PROFESOR
+  4  ON PROFESOR.CAR= AREA.CAR
+  5  GROUP BY D
+  6  HAVING(COUNT(DNI))<=ALL(SELECT COUNT(DNI) FROM DEPARTAMENTO NATURAL JOIN AREA
+  7  GROUP BY D);
+
+D                                                                               
+--------------------------------------------------                              
+ASTROFISICA                                                                     
+MATEMATICAS FUNDAMENTAL                                                         
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3  GROUP BY D
+  4  HAVING(COUNT(DNI))<=ALL(SELECT COUNT(DNI)
+  5  FROM DEPARTAMENTO NATURAL JOIN AREA
+  6  GROUP BY D;
+GROUP BY D
+         *
+ERROR at line 6:
+ORA-00920: invalid relational operator 
+
+
+SQL> 6 GROUP BY D);
+SQL> /
+
+D                                                                               
+--------------------------------------------------                              
+ASTROFISICA                                                                     
+MATEMATICAS FUNDAMENTAL                                                         
+
+SQL> SELECT AVG(COUNT(DNI)) MEDIA
+  2  FROM PROFESOR NATURAL JOIN AREA NATURL JOIN DEPARTAMENTO
+  3  GROUP BY D;
+GROUP BY D
+*
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> 3 GROUP BY D
+SQL> /
+GROUP BY D
+*
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> 3 GROUP BY D
+SQL> /
+GROUP BY D
+*
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> L
+  1  SELECT AVG(COUNT(DNI)) MEDIA
+  2  FROM PROFESOR NATURAL JOIN AREA NATURL JOIN DEPARTAMENTO
+  3* GROUP BY D
+SQL> 2 FROM PROFESOR NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+SQL> /
+
+     MEDIA                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT COUNT(DNI)
+  2  FROM PROFESOR NATURAL JOIN AREA
+  3  WHERE AR LIKE 'A%';
+
+COUNT(DNI)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT DISTINCT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCNETE
+  3  WHERE((FF-FI)>365) OR((FF IS NULL)AND((SYSDATE-FI>365)));
+FROM PROFESOR NATURAL JOIN PLAN_DOCNETE
+                           *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> 2 FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+SQL> /
+
+P                                                                               
+------------------------------------------------------------                    
+MARIO                                                                           
+JUAN                                                                            
+PEDRO                                                                           
+FRANCISCO                                                                       
+SOLEDAD                                                                         
+DAVID                                                                           
+CARLOS                                                                          
+IVAN                                                                            
+CARMEN                                                                          
+MARIA                                                                           
+JOSE MANUEL                                                                     
+ANGELA                                                                          
+
+12 rows selected.
+
+SQL> SPOOL OFF
